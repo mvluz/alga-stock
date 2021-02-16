@@ -12,7 +12,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         className="AppButton"
         onClick={props.onClick}
     >
-        { props.content || "Botão sem nome" }
+        { props.children || "Botão sem nome" }
         { props.appendIcon }
     </button>
 }

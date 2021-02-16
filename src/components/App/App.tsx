@@ -4,7 +4,7 @@ import Header from '../Header';
 import './App.css';
 
 function TestComponent () {
-  return <img width="16" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/768px-Search_Icon.svg.png" 
+  return <img width="16" src="https://img.icons8.com/pastel-glyph/2x/search--v2.png" 
   alt="Seach icon"/>
 }
 
@@ -15,10 +15,11 @@ function App() {
       
       <div className="Container">
         <Button 
-          content="Click me"
           onClick={() => window.alert('Alerta!')}
           appendIcon={<TestComponent/>}
-        />
+        >
+        Alert
+        </Button>
       </div>
     </div>
   );
