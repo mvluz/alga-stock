@@ -18,18 +18,15 @@ function App() {
       <Header title="Alga-Stock"/>
       
       <Container>
-        <Button 
-          onClick={() => window.alert('Alerta!')}
-          appendIcon={<TestComponent/>}
-        >
-        Alert
-        </Button>
-        <Input 
-          label="Logradouro"
-          placeholder="AV. Assis Brasil"
-          value={logradouro}
-          onChange={ e => setLogradouro(e.target.value) }
-        />
+        <ul>
+        {
+          ['Neo','Trinity','Morpheus','Neo'].map((name, index) => {
+            return <li>
+              { name } , { index }
+            </li>
+          })
+        }
+        </ul>
       </Container>
     </div>
   );
