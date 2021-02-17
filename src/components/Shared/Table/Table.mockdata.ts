@@ -14,7 +14,7 @@ export interface FakeProduct {
     },
     {
       id: 2,
-      name: 'Milk 1l',
+      name: 'Milk 1L',
       price: 0.99,
       stock: 10
     },
@@ -26,7 +26,7 @@ export interface FakeProduct {
     },
     {
       id: 4,
-      name: 'Water 1l',
+      name: 'Water 1L',
       price: 0.30,
       stock: 150
     }
