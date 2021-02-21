@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../../Shared/Button'
 import Form from '../../Shared/Form'
 import Input from '../../Shared/Input'
@@ -38,6 +38,10 @@ const ProductsForm: React.FC<ProductFormProps> = (props) => {
       }
 
     const [form,setForm] = useState(initialFormState)
+
+    useEffect(() => {
+      setForm(initialFormState)
+    }, [props.form])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value, name} = event.target
