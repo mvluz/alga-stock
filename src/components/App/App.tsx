@@ -3,7 +3,7 @@ import Header from '../Header';
 import './App.css';
 import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
-import fakeProducts from '../../Shared/Table/Table.mockdata';
+import fakeProducts, { FakeProduct } from '../../Shared/Table/Table.mockdata';
 import ProductsForm, { ProductCreator } from '../Products/ProductForm';
 
 const fakeCabecalho: TableHeader[] = [
@@ -27,6 +27,14 @@ function App() {
     ])
   }
   
+  const handleProcuctUpdate = (newProduct: FakeProduct) => {
+    setProducts(products.map( product => 
+      product.id === newProduct.id
+        ? newProduct
+        : product
+    ))
+  }
+
   return (
     <div className="App">
       <Header title="Alga-Stock"/>
@@ -38,7 +46,9 @@ function App() {
         />
         
         <ProductsForm
+          form={fakeProducts[0]}
           onSubmit={handleProductSubmit}
+          onUpdate={handleProcuctUpdate}
         />
       </Container>
     </div>
