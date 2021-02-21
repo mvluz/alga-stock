@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../Header';
 import './App.css';
 import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
 import fakeProducts from '../../Shared/Table/Table.mockdata';
-import Form from '../../Shared/Form';
-import Input from '../../Shared/Input';
-import Button from '../../Shared/Button';
-import ProductsForm from '../Products/ProductForm';
+import ProductsForm, { ProductCreator } from '../Products/ProductForm';
 
 const fakeCabecalho: TableHeader[] = [
   { key: 'id', value: '#'},
@@ -18,6 +15,18 @@ const fakeCabecalho: TableHeader[] = [
 
 
 function App() {
+  const [products, setProducts] = useState(fakeProducts)
+
+  const handleProductSubmit = (product: ProductCreator) => {
+    setProducts([
+      ...products,
+      {
+        id: products.length + 1,
+        ...product
+      }
+    ])
+  }
+  
   return (
     <div className="App">
       <Header title="Alga-Stock"/>
@@ -25,10 +34,12 @@ function App() {
       <Container>
         <Table 
           headers={fakeCabecalho}
-          data={fakeProducts}
+          data={products}
         />
         
-        <ProductsForm/>
+        <ProductsForm
+          onSubmit={handleProductSubmit}
+        />
       </Container>
     </div>
   );
