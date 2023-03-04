@@ -5,6 +5,7 @@ import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
 import fakeProducts, { FakeProduct } from '../../Shared/Table/Table.mockdata';
 import ProductsForm, { ProductCreator } from '../Products/ProductForm';
+import { Console } from 'console';
 
 const fakeCabecalho: TableHeader[] = [
   { key: 'id', value: '#'},
@@ -46,6 +47,10 @@ function App() {
         <Table 
           headers={fakeCabecalho}
           data={products}
+          enableActions
+          onDelete = {console.log}
+          onDetail = {console.log}
+          onEdit = {console.log} 
         />
         
         <ProductsForm
