@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
 import Header from '../Header';
 import './App.css';
 import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
 import fakeProducts, { FakeProduct } from '../../Shared/Table/Table.mockdata';
 import ProductsForm, { ProductCreator } from '../Products/ProductForm';
-import { Console } from 'console';
+
 
 const fakeCabecalho: TableHeader[] = [
   { key: 'id', value: '#'},
@@ -39,6 +40,42 @@ function App() {
     setUpdatingProduct(undefined)
   }
 
+  const handleProductEdit = (product: FakeProduct) => {
+    setUpdatingProduct(product)
+  }
+
+  const handleProductDetail = (product: FakeProduct) => {
+    Swal.fire(
+      'Product Detail',
+      `${product.name} costs US$ ${product.price} and we have ${product.stock} avaliable in stock.`,
+      'info'
+    )
+  }
+
+  const handleProductDelete = (product: FakeProduct) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#09f',
+      cancelButtonColor: '#d33',
+      confirmButtonText: `Yes, delete ${product.name}!`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        productDelete(product.id)
+        Swal.fire(
+          'Deleted!',
+          'Your Product has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+
+  const productDelete = (productID: number) => {
+    setProducts(products.filter(product => product.id !== productID))
+  }
   return (
     <div className="App">
       <Header title="Alga-Stock"/>
@@ -48,9 +85,9 @@ function App() {
           headers={fakeCabecalho}
           data={products}
           enableActions
-          onDelete = {console.log}
-          onDetail = {console.log}
-          onEdit = {console.log} 
+          onDelete = {handleProductDelete}
+          onDetail = {handleProductDetail}
+          onEdit = {handleProductEdit} 
         />
         
         <ProductsForm
