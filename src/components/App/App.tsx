@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import Header from '../Header';
 import './App.css';
@@ -6,6 +6,7 @@ import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
 import fakeProducts, { FakeProduct } from '../../Shared/Table/Table.mockdata';
 import ProductsForm, { ProductCreator } from '../Products/ProductForm';
+import { getAllProducts } from '../../services/Products.services';
 
 
 const fakeCabecalho: TableHeader[] = [
@@ -17,9 +18,17 @@ const fakeCabecalho: TableHeader[] = [
 
 
 function App() {
-  const [products, setProducts] = useState(fakeProducts)
+  const [products, setProducts] = useState<FakeProduct[]>([])
   const [updatingProduct, setUpdatingProduct] = useState<FakeProduct | undefined>(fakeProducts[0])
+  
+  useEffect(()=>{
+    async function fetchData() {
+      const _products = await getAllProducts()
+      setProducts(_products)
+    }
 
+    fetchData()
+  },[])
   const handleProductSubmit = (product: ProductCreator) => {
     setProducts([
       ...products,
