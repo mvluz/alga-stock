@@ -4,13 +4,13 @@ import Header from '../Header';
 import './App.css';
 import Container from '../../Shared/Container';
 import Table, { TableHeader } from '../../Shared/Table';
-import fakeProducts, { FakeProduct } from '../../Shared/Table/Table.mockdata';
+import fakeProducts, { Product } from '../../Shared/Table/Table.mockdata';
 import ProductsForm, { ProductCreator } from '../Products/ProductForm';
 import { getAllProducts } from '../../services/Products.services';
 
 
-const fakeCabecalho: TableHeader[] = [
-  { key: 'id', value: '#'},
+const header: TableHeader[] = [
+  { key: '', value: '#'},
   { key: 'name', value: 'Product'},
   { key: 'price', value: 'Price', right: true},
   { key: 'stock', value: 'Available Stock', right: true},
@@ -18,8 +18,8 @@ const fakeCabecalho: TableHeader[] = [
 
 
 function App() {
-  const [products, setProducts] = useState<FakeProduct[]>([])
-  const [updatingProduct, setUpdatingProduct] = useState<FakeProduct | undefined>(fakeProducts[0])
+  const [products, setProducts] = useState<Product[]>([])
+  const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>(fakeProducts[0])
   
   useEffect(()=>{
     async function fetchData() {
@@ -33,27 +33,27 @@ function App() {
     setProducts([
       ...products,
       {
-        id: products.length + 1,
+        _id: String(products.length + 1),
         ...product
       }
     ])
   }
   
-  const handleProcuctUpdate = (newProduct: FakeProduct) => {
-    setProducts(products.map( product => 
-      product.id === newProduct.id
-        ? newProduct
-        : product
-    ))
+  const handleProcuctUpdate = (newProduct: Product) => {
+   setProducts(products.map( product => 
+     product._id === newProduct._id
+       ? newProduct
+       : product
+   ))
 
     setUpdatingProduct(undefined)
   }
 
-  const handleProductEdit = (product: FakeProduct) => {
+  const handleProductEdit = (product: Product) => {
     setUpdatingProduct(product)
   }
 
-  const handleProductDetail = (product: FakeProduct) => {
+  const handleProductDetail = (product: Product) => {
     Swal.fire(
       'Product Detail',
       `${product.name} costs US$ ${product.price} and we have ${product.stock} avaliable in stock.`,
@@ -61,7 +61,7 @@ function App() {
     )
   }
 
-  const handleProductDelete = (product: FakeProduct) => {
+  const handleProductDelete = (product: Product) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -72,18 +72,18 @@ function App() {
       confirmButtonText: `Yes, delete ${product.name}!`
     }).then((result) => {
       if (result.isConfirmed) {
-        productDelete(product.id)
-        Swal.fire(
-          'Deleted!',
-          'Your Product has been deleted.',
-          'success'
-        )
+       productDelete(String(product._id))
+       Swal.fire(
+         'Deleted!',
+         'Your Product has been deleted.',
+         'success'
+       )
       }
     })
   }
 
-  const productDelete = (productID: number) => {
-    setProducts(products.filter(product => product.id !== productID))
+  const productDelete = (productID: string) => {
+    setProducts(products.filter(product => product._id !== productID))
   }
   return (
     <div className="App">
@@ -91,7 +91,7 @@ function App() {
       
       <Container>
         <Table 
-          headers={fakeCabecalho}
+          headers={header}
           data={products}
           enableActions
           onDelete = {handleProductDelete}
