@@ -10,6 +10,8 @@ import {
     updateSingleProduct
 } from '../../services/Products.services'
 import {connect} from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { insertNewProduct } from '../../redux/Products/Products.actions'
 
 const header: TableHeader[] = [
     { key: '', value: '#' },
@@ -23,6 +25,7 @@ declare interface ProductsCRUDProps {
  }
 
 const ProductCRUD: React.FC<ProductsCRUDProps> = (props) => {
+    const dispatch = useDispatch()
     //const [products, setProducts] = useState<Product[]>([])
     const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>()
 
@@ -41,7 +44,8 @@ const ProductCRUD: React.FC<ProductsCRUDProps> = (props) => {
 
     const handleProductSubmit = async (newProduct: ProductCreator) => {
         try {
-            await createSingleProduct(newProduct)
+            dispatch(insertNewProduct(newProduct))
+            //await createSingleProduct(newProduct)
             await fetchData()
         } catch (error) {
             await messageError('Oopps!', error)
