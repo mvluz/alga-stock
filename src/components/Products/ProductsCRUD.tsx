@@ -9,6 +9,7 @@ import {
     getAllProducts,
     updateSingleProduct
 } from '../../services/Products.services'
+import {connect} from 'react-redux'
 
 const header: TableHeader[] = [
     { key: '', value: '#' },
@@ -17,8 +18,12 @@ const header: TableHeader[] = [
     { key: 'stock', value: 'Available Stock', right: true },
 ]
 
-const ProductCRUD = () => {
-    const [products, setProducts] = useState<Product[]>([])
+declare interface ProductsCRUDProps { 
+    products: Product[]
+ }
+
+const ProductCRUD: React.FC<ProductsCRUDProps> = (props) => {
+    //const [products, setProducts] = useState<Product[]>([])
     const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>()
 
     async function messageError(messagemTitle: string, error: any) {
@@ -26,8 +31,8 @@ const ProductCRUD = () => {
     }
 
     async function fetchData() {
-        const _products = await getAllProducts()
-        setProducts(_products)
+        //const _products = await getAllProducts()
+        //setProducts(_products)
     }
 
     useEffect(() => {
@@ -98,7 +103,7 @@ const ProductCRUD = () => {
     return <>
         <Table
             headers={header}
-            data={products}
+            data={props.products}
             enableActions
             onDelete={handleProductDelete}
             onDetail={handleProductDetail}
@@ -113,4 +118,8 @@ const ProductCRUD = () => {
     </>
 }
 
-export default ProductCRUD
+const mapStateToProps = (state: any) => ({
+    products: state.products
+})
+
+export default connect(mapStateToProps)(ProductCRUD)
