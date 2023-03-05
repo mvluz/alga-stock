@@ -4,15 +4,15 @@ import http from '../utils/http'
 
 export const getAllProducts = () =>
     http
-        .get<Product[]>('http://localhost:3024/products')
+        .get<Product[]>('/products')
         .then(response => response.data)
 export const createSingleProduct = (product: ProductCreator) =>
     http
-        .post('http://localhost:3024/products', product)
+        .post('/products', product)
 
 export const updateSingleProduct = ({_id,name,price,stock}: Product) =>
 http
-    .patch(`http://localhost:3024/products/${_id}`, {
+    .patch(`/products/${_id}`, {
         ...(name && {name}),
         ...(price && {price}),
         ...(stock && {stock}),
@@ -20,4 +20,4 @@ http
 
 export const deleteSingleProduct = (productID: string) =>
 http
-    .delete(`http://localhost:3024/products/${productID}`)
+    .delete(`/products/${productID}`)
